@@ -2,6 +2,7 @@ package net.md_5.bungee;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.weakpvp.bungee.events.BungeeCordMessageEvent;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -298,7 +299,9 @@ public final class UserConnection implements ProxiedPlayer
                 callback.done( ServerConnectRequest.Result.ALREADY_CONNECTED, null );
             }
 
-            // sendMessage( bungee.getTranslation( "already_connected" ) );
+            // sendMessage( bungee.getTranslation( "already_connecting" ) );
+            BungeeCordMessageEvent messageEvent = new BungeeCordMessageEvent( this, "already_connecting" );
+            bungee.getPluginManager().callEvent( messageEvent );
             return;
         }
         if ( pendingConnects.contains( target ) )
@@ -308,7 +311,9 @@ public final class UserConnection implements ProxiedPlayer
                 callback.done( ServerConnectRequest.Result.ALREADY_CONNECTING, null );
             }
 
-            sendMessage( bungee.getTranslation( "already_connecting" ) );
+            // sendMessage( bungee.getTranslation( "already_connecting" ) );
+            BungeeCordMessageEvent messageEvent = new BungeeCordMessageEvent( this, "already_connecting" );
+            bungee.getPluginManager().callEvent( messageEvent );
             return;
         }
 
